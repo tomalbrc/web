@@ -1,0 +1,543 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>blockbench-import-library docs</title>
+        <meta name="robots" content="noindex">
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body class="sidebar-visible no-js">
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('light')
+            html.classList.add(theme);
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var body = document.querySelector('body');
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded affix "><a href="index.html">Introduction</a></li><li class="chapter-item expanded "><a href="Concepts.html"><strong aria-hidden="true">1.</strong> Concepts</a></li><li class="chapter-item expanded "><a href="Set-up.html"><strong aria-hidden="true">2.</strong> Setting up BIL</a></li><li class="chapter-item expanded "><a href="Creating-and-adding-a-model.html"><strong aria-hidden="true">3.</strong> Creating and adding a model</a></li><li class="chapter-item expanded "><a href="Using-the-model.html"><strong aria-hidden="true">4.</strong> Using the model</a></li><li class="chapter-item expanded "><a href="Using-locators.html"><strong aria-hidden="true">5.</strong> Using locators</a></li><li class="chapter-item expanded "><a href="Commands.html"><strong aria-hidden="true">6.</strong> Commands</a></li><li class="chapter-item expanded "><a href="Example.html"><strong aria-hidden="true">7.</strong> Example entity implementation</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">blockbench-import-library docs</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h3 id="welcome-to-the-blockbench-import-library-bil-wiki"><a class="header" href="#welcome-to-the-blockbench-import-library-bil-wiki">Welcome to the blockbench-import-library (BIL) wiki!</a></h3>
+<p>Documentation for version 1.1.6 and above.</p>
+<p>blockbench-import-library (short BIL) is a library to help create serverside content with custom models and animations, without requiring client mods.</p>
+<p>Custom Models and textures will be generated automatically - the resulting resourcepack is hosted through polymer autohost, no need to handle resourcepacks yourself!</p>
+<p>With BIL you are able to load Blockbench and Animated Java files - it acts as a bridge between Blockbench and serverside content (like entities and blocks) for fabric, written using Polymer, allowing you to combine fancy custom models, textures and animations with completely custom block / mob logic.</p>
+<p>Check out the other pages in the wiki to learn more!</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="concepts"><a class="header" href="#concepts">Concepts:</a></h1>
+<p>I will try to give a short summary of the concepts used in this library;<br />
+As a TLDR of sorts</p>
+<h2 id="animatedholder"><a class="header" href="#animatedholder">AnimatedHolder</a></h2>
+<p>BIL uses Polymer's ElementHolder concept, which acts as a container for visual and interactive elements (and a bit more). This library extends this by providing specialized interfaces and implementations for animated models in various scenarios:</p>
+<hr />
+<h3 id="animatedentityholder-extends-animatedholder"><a class="header" href="#animatedentityholder-extends-animatedholder"><code>AnimatedEntityHolder extends AnimatedHolder</code>:</a></h3>
+<blockquote>
+<p><code>LivingEntityHolder</code>:
+Easiest to use for living entities. It automatically rotates nodes prefixed with "head" based on the entity's head rotation</p>
+</blockquote>
+<blockquote>
+<p><code>LivingEntityHolderWithRideOffset</code>: As above but with a custom ride offset</p>
+</blockquote>
+<blockquote>
+<p><code>InteractableEntityHolder</code>: Could be used for very basic entities, like different minecarts, boats or other custom entities like sleds</p>
+</blockquote>
+<blockquote>
+<p><code>SimpleEntityHolder</code>: As above but without the interaction</p>
+</blockquote>
+<hr />
+<h3 id="animatedholder-1"><a class="header" href="#animatedholder-1"><code>AnimatedHolder</code>:</a></h3>
+<blockquote>
+<p><code>PositionedHolder</code>: Can be used with polymers <code>BlockWithElementHolder</code> or with Block entities to make custom chests or other animated blocks</p>
+</blockquote>
+<hr />
+<h3 id="bbmodel"><a class="header" href="#bbmodel"><code>BbModel</code>:</a></h3>
+<p>This class represents a POJO (Plain Old Java Object) interpretation of a blockbench file. It serves as a structured representation of the data within the blockbench file.</p>
+<h3 id="model"><a class="header" href="#model"><code>Model</code>:</a></h3>
+<p>This class acts as a simplified representation specifically designed for the animation engine</p>
+<h3 id="animation"><a class="header" href="#animation"><code>Animation</code>:</a></h3>
+<ul>
+<li>Holds all matrices for all bones to play in a list. These matrices define the transformation (position, rotation, scale) of each bone at each frame (at 50ms intervals, or 1 tick)</li>
+</ul>
+<p>DynamicAnimation (todo):
+This future feature aims to dynamically sample keyframes and calculate transformations based on the scenegraph hierarchy.
+Performance impact might be high</p>
+<h2 id="effect-keyframes"><a class="header" href="#effect-keyframes">Effect Keyframes</a></h2>
+<p>Effect keyframes extend the functionality beyond basic animation. They allow for effects such as:</p>
+<ul>
+<li>Playing sounds</li>
+<li>Switching between variants.</li>
+<li>Executing commands</li>
+</ul>
+<h2 id="commands"><a class="header" href="#commands">Commands</a></h2>
+<p>Commands can be run as effect keyframes.
+When using the Animated Java blockbench plugin, commands enable you to conditionally trigger sounds, execute other commands, and switch variants based on specific criteria, using commands, within the animation.</p>
+<h2 id="variants"><a class="header" href="#variants">Variants</a></h2>
+<p>Animated Java exclusive feature;
+It allows to dynamically switch the model's texture</p>
+<div style="break-before: page; page-break-before: always;"></div><p>Merge these into your <code>build.gradle</code> file to add the blockbench-import-library as dependency.<br />
+blockbench-import-library requires certain <a href="https://polymer.pb4.eu/">Polymer</a> modules aswell, which are included here.</p>
+<pre><code class="language-groovy">repositories {
+    maven { url 'https://maven.tomalbrc.de' } // blockbench-import-library
+    maven { url 'https://maven.nucleoid.xyz' } // Polymer
+}
+
+dependencies {
+    modImplementation include("de.tomalbrc:blockbench-import-library:[BIL_VERSION]")
+
+    modImplementation "eu.pb4:polymer-core:[POLYMER_VERSION]"
+    modImplementation "eu.pb4:polymer-networking:[POLYMER_VERSION]"
+    modImplementation "eu.pb4:polymer-resource-pack:[POLYMER_VERSION]"
+    modImplementation "eu.pb4:polymer-virtual-entity:[POLYMER_VERSION]"
+
+    // Useful for automatically handling resourcepacks in dev environment, but not required.
+    modRuntimeOnly "eu.pb4:polymer-autohost:[POLYMER_VERSION]"
+}
+</code></pre>
+<p>It is important to make sure these dependencies are available at runtime.<br />
+You can do this by either adding these modules to your dependencies in <code>fabric.mod.json</code>, or by including them in your jar file as Jar-in-Jar.</p>
+<pre><code class="language-json">"blockbench-import-library": "*",
+"polymer-core": "*",
+"polymer-networking": "*",
+"polymer-virtual-entity": "*",
+"polymer-resource-pack": "*"
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="1-creating-a-model"><a class="header" href="#1-creating-a-model">1. Creating a model</a></h2>
+<p>To create a model you can use, you will first need to install <a href="https://www.blockbench.net/">Blockbench</a>. You can optionally install the <a href="https://github.com/Animated-Java/animated-java#how-to-install">Animated Java Blockbench Plugin</a> - it offers a few more features such as variants and conditional effect keyframes (Sounds, Commands, Variants).<br />
+In Blockbench you can either choose a <code>Generic Entity Model</code>, or an <code>Animated Java Rig</code>.<br />
+From there you can create the model. If you aren't familiar with Blockbench or Animated Java yet, you can find the <a href="https://www.blockbench.net/wiki">Blockbench Wiki here</a> and <a href="https://animated-java.dev/docs/home">AnimatedJava documentation here</a>.</p>
+<p>Once you have finished the model, you can just save the <code>.bbmodel</code> or <code>.ajmodel</code>\</p>
+<h2 id="2-adding-the-model-to-mod-resources"><a class="header" href="#2-adding-the-model-to-mod-resources">2. Adding the model to mod resources</a></h2>
+<p>To make the model available ingame, it needs to be included in your mod's resources folder.<br />
+Models in mod resources are referenced by identifier, in format <code>namespace:path</code>.</p>
+<p>Add the <code>.bbmodel</code> or <code>.ajmodel</code> file - the model - to <code>/resources/model/&lt;namespace&gt;/&lt;path&gt;.json</code>.
+This is the file that will be parsed by BIL on the server and a resourcepack will be generated.
+The models will have to be loaded before the world is loaded, otherwise the resourcepack generation has to be started manually again on order for the models to be available in the resourcepack</p>
+<h2 id="notes"><a class="header" href="#notes">Notes</a></h2>
+<ul>
+<li>Head bones of mobs should have their names starting with <code>head</code>, so BIL can recognize it for head rotations.</li>
+<li>Child bone transformations of head bone rotations currently have a flaw, this will be addressed soon!</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="1-loading-the-model"><a class="header" href="#1-loading-the-model">1. Loading the model</a></h2>
+<p>To load a model file into the actual game, you can use the utility methods in the <code>BbModelLoader</code> and <code>AjModelLoader</code> classes.<br />
+Models required in mods should be retrieved by ID, but it's also possible to load files from the server.<br />
+Note that these models are <strong>not</strong> cached by BIL. They are safe to reuse and should be cached when possible</p>
+<pre><code class="language-java">public static final Model MODEL_FROM_ID = BbModelLoader.load(new ResourceLocation("namespace", "path"));
+public static final Model MODEL_FROM_FILEPATH = BbModelLoader.load("file/path/example.bbmodel");
+</code></pre>
+<p>These <code>Model</code> objects can be used with BIL's custom implementations of Polymer's ElementHolder.<br />
+Anything extending <code>AbstractAnimatedHolder</code> supports it.</p>
+<h2 id="2-entity-attachments"><a class="header" href="#2-entity-attachments">2. Entity Attachments</a></h2>
+<p>BIL models can be attached to entities.<br />
+Writing a custom entity with model works mostly the same as writing one normally.<br />
+You just have to implement <code>AnimatedEntity</code> and initialize an <code>EntityHolder</code> in the constructor with the model.</p>
+<pre><code class="language-java">public class RedstoneGolem extends Monster implements AnimatedEntity {
+    public static final ResourceLocation ID = new ResourceLocation("bil", "redstone_golem");
+    public static final Model MODEL = BbModelImporter.load(ID);
+    private final EntityHolder&lt;RedstoneGolem&gt; holder;
+
+    public RedstoneGolem(EntityType&lt;? extends Monster&gt; type, Level level) {
+        super(type, level);
+
+        // Creates model holder with out of the box support for most LivingEntity features.
+        // Note that it is always possible to write your own or override some of their methods.
+        this.holder = new LivingEntityHolder&lt;&gt;(this, MODEL);
+
+        // Attaches the holder to this entity in Polymer.
+        // Make sure that ticking is enabled, as it is required for model updates.
+        EntityAttachment.ofTicking(this.holder, this);
+    }
+
+    @Override
+    public EntityHolder&lt;RedstoneGolem&gt; getHolder() {
+        return this.holder;
+    }
+}
+</code></pre>
+<h2 id="3-other-attachments"><a class="header" href="#3-other-attachments">3. Other Attachments</a></h2>
+<p>While BIL is mostly targeted towards entities, it is possible to attach model holders to other things.<br />
+Polymer provides a few of its own other attachments, like ChunkAttachment and BlockBoundAttachment.<br />
+You can attach your model holder those aswell.</p>
+<h2 id="4-variants-and-animations"><a class="header" href="#4-variants-and-animations">4. Variants and Animations</a></h2>
+<p>One thing BIL can't automatically do for you is decide when certain animations or variants should be used.<br />
+To do this, every holder provides an <code>Animator</code> and <code>VariantController</code>, which can for example be used like this:</p>
+<pre><code class="language-java">Animator animator = holder.getAnimator();
+
+// Completely stops the animation named 'idle'.
+animator.stopAnimation("idle");
+
+// Pauses the animation named 'walk'.
+animator.pauseAnimation("walk");
+
+// Plays the melee animation with priority 10.
+animator.playAnimation("melee", 10); 
+
+VariantController controller = holder.getVariantController();
+
+// Sets the variant to the variant named 'hurt' if the current variant is default.
+if (controller.isDefaultVariant()) {
+    controller.setVariant("hurt");
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="locators"><a class="header" href="#locators">Locators</a></h2>
+<p>Locators are nodes you can add to your model when using the AnimatedJava Blockbench Plugin.<br />
+They are very useful for tracking the position of a specific place on the model.<br />
+Example uses cases of this are adding hand items, displaying particles and many other things.</p>
+<p>BIL has support for these locators, although they work a little bit different here.<br />
+AnimatedJava has an <code>Entity Type</code> field for locators, placing that entity on the locator position, this field does not get used here.<br />
+With BIL, locators work by registering listeners to it that receive updates when the locators' transform changes.</p>
+<p>You can write your own listeners to do exactly what you want, but BIL also provides a few for entity elements.</p>
+<h3 id="elementupdatelistener"><a class="header" href="#elementupdatelistener"><a href="https://github.com/tomalbrc/blockbench-import-library/blob/src/main/java/de/tomalbrc/bil/core/extra/ElementUpdateListener.java">ElementUpdateListener</a></a></h3>
+<p>Allows you to add any <code>GenericEntityElement</code> and updates its position based on the locators transform.</p>
+<pre><code class="language-java">Locator locator = holder.getLocator("&lt;locator_name&gt;");
+GenericEntityElement element = new GenericEntityElement() {
+  @Override
+  protected EntityType&lt;? extends Entity&gt; getEntityType() {
+    return EntityType.COW;
+  }
+};
+
+// Adds listener for our simple cow element.
+locator.addListener(new ElementUpdateListener(element));
+
+// Adds the element to the holder and sends it to nearby clients.
+holder.addElement(element);
+</code></pre>
+<h3 id="displayelementupdatelistener"><a class="header" href="#displayelementupdatelistener"><a href="https://github.com/tomalbrc/blockbench-import-library/blob/src/main/java/de/tomalbrc/bil/core/extra/DisplayElementUpdateListener.java#L11">DisplayElementUpdateListener</a></a></h3>
+<p>Allows you to add any <code>DisplayElement</code> and applies the locators transform on it.</p>
+<pre><code class="language-java">Locator locator = holder.getLocator("&lt;locator_name&gt;");
+DisplayElement displayElement = new ItemDisplayElement();
+
+// Puts the display element in a wrapper. This wrapper stores certain information about the element, like whether it is a head element.
+// Head elements can transform differently for mobs, as their head rotation can be different from their body rotation.
+DisplayWrapper&lt;?&gt; display = new DisplayWrapper&lt;&gt;(displayElement, locator, isHeadElement);
+locator.addListener(new DisplayElementUpdateListener(display));
+
+// We initialize the display entity before adding it, to make sure the transform is applied before it gets sent to the client.
+holder.initializeDisplay(display);
+
+// Custom method for adding additional display elements. This tells the holder to mount the display as a passenger.
+// This internally calls holder#addElement, and should be used instead of it for display elements registered with this listener.
+holder.addAdditionalDisplay(displayElement);
+</code></pre>
+<h2 id="notes-1"><a class="header" href="#notes-1">Notes</a></h2>
+<ul>
+<li>When a locator has 0 listeners, it won't have to update. Remove listeners you aren't using for best performance.</li>
+<li>Locator updates can be called async from a non-server thread. Take this into account when writing your own listeners.</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h2 id="commands-1"><a class="header" href="#commands-1">Commands</a></h2>
+<ul>
+<li>
+<p><code>/bil model create id&lt;.ajmodel&gt;|filepath &lt;model&gt;</code></p>
+<blockquote>
+<p>Spawns a model ingame based on mob identifier or a file path (from server root folder) to the model json file. These models are not saved and are mostly intended for testing. If you want load an .ajmodel file, make sure to append <code>.ajmodel</code> to either the id or file path.</p>
+</blockquote>
+</li>
+<li>
+<p><code>/bil model &lt;targets&gt; animation|variant|scale &lt;args&gt;</code></p>
+<blockquote>
+<p>Modifies the model of any entity selected in <targets> that has a custom model. Allows you to temporarily change the scale of the model, update the variant and play / pause / stop animations. This is also mostly intended for testing and playing with the models.</p>
+</blockquote>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><p>Example of a hostile entity (mojang mappings)</p>
+<pre><code class="language-java">import ...
+
+public class Snake extends Monster implements AnimatedEntity {
+    public static final ResourceLocation ID = Util.id("snake");
+    public static final Model MODEL = AjModelLoader.load(ID); // For .ajmodel files, use AjModelLoader, otherwise BbModelLoader
+    private final EntityHolder&lt;Snake&gt; holder; // use a BIL based ElementHolder subclass specifically for entities 
+
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes()
+                .add(Attributes.ATTACK_DAMAGE, 2.0)
+                .add(Attributes.MAX_HEALTH, 8.0)
+                .add(Attributes.MOVEMENT_SPEED, 0.4);
+    }
+
+    public static boolean checkSnakeSpawnRules(EntityType&lt;? extends Monster&gt; type, ServerLevelAccessor level, MobSpawnType spawnType, BlockPos pos, RandomSource random) {
+        return level.canSeeSky(pos) &amp;&amp; checkMonsterSpawnRules(type, level, spawnType, pos, random);
+    }
+
+    @Override
+    public EntityHolder&lt;Snake&gt; getHolder() {
+        return this.holder;
+    }
+
+    public Snake(EntityType&lt;? extends Snake&gt; type, Level level) {
+        super(type, level);
+
+        this.moveControl = new MoveControl(this);
+        this.jumpControl = new JumpControl(this);
+
+        this.holder = new LivingEntityHolder&lt;&gt;(this, MODEL); // create a holder for living entities, for head rotations and other features
+        EntityAttachment.ofTicking(this.holder, this); // attach the holder to this entity using a polymer EntityAttachment
+    }
+
+    @Override
+    protected void registerGoals() {
+        this.goalSelector.addGoal(0, new FloatGoal(this));
+        this.goalSelector.addGoal(1, new MeleeAttackGoal(this, 1.0, true));
+        this.goalSelector.addGoal(2, new LookAtPlayerGoal(this, Player.class, 2.0F));
+        this.goalSelector.addGoal(3, new WaterAvoidingRandomStrollGoal(this, 0.59));
+        this.goalSelector.addGoal(4, new RandomLookAroundGoal(this));
+
+        this.targetSelector.addGoal(1, new HurtByTargetGoal(this, Snake.class));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal&lt;&gt;(this, Player.class, true));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal&lt;&gt;(this, Chicken.class, true));
+    }
+
+    @Override
+    public void tick() {
+        super.tick();
+
+        if (this.tickCount % 2 == 0) {
+            AnimationHelper.updateWalkAnimation(this, this.holder); // util methods, see below
+            AnimationHelper.updateHurtVariant(this, this.holder); // util methods
+        }
+    }
+
+    @Override
+    public boolean doHurtTarget(Entity entity) {
+        boolean result = super.doHurtTarget(entity);
+
+        if (result) {
+            if (entity instanceof LivingEntity livingEntity &amp;&amp; this.random.nextInt(5) == 1) {
+                livingEntity.addEffect(new MobEffectInstance(MobEffects.POISON, level().getDifficulty().getId() * 2 * 20, 1));
+            }
+        }
+
+        return result;
+    }
+}
+</code></pre>
+<p>AnimationHelper implementation:</p>
+<pre><code class="language-java">public class AnimationHelper {
+
+    public static void updateWalkAnimation(LivingEntity entity, AnimatedHolder holder) {
+        updateWalkAnimation(entity, holder, 0);
+    }
+
+    public static void updateWalkAnimation(LivingEntity entity, AnimatedHolder holder, int priority) {
+        Animator animator = holder.getAnimator();
+        if (entity.walkAnimation.isMoving() &amp;&amp; entity.walkAnimation.speed() &gt; 0.02) {
+            animator.playAnimation("walk", priority);
+            animator.pauseAnimation("idle");
+        } else {
+            animator.pauseAnimation("walk");
+            animator.playAnimation("idle", priority, true);
+        }
+    }
+
+    public static void updateHurtVariant(LivingEntity entity, AnimatedHolder holder) {
+        updateHurtColor(entity, holder); // if you are using animated java, you could change to a different variant or use a color like we do here 
+    }
+
+    public static void updateHurtColor(LivingEntity entity, AnimatedHolder holder) {
+        if (entity.hurtTime &gt; 0 || entity.deathTime &gt; 0)
+            holder.setColor(0xff7e7e);
+        else
+            holder.clearColor();
+    }
+}
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+        <script>
+        window.addEventListener('load', function() {
+            window.setTimeout(window.print, 100);
+        });
+        </script>
+
+    </div>
+    </body>
+</html>

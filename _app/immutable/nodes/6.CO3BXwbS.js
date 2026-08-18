@@ -1,0 +1,1 @@
+import{a as o,t}from"../chunks/Bubg1KWz.js";import"../chunks/Ct1SaaGW.js";var e=t('<span class="flex flex-col bg-gray-800 rounded-lg shadow-lg p-5"><p class="bold-text">Contact:</p> <p>Phone: +𝟦𝟫 𝟣𝟨𝟢 𝟫𝟣𝟩𝟧𝟧𝟩𝟥𝟦‬</p> <p>E&dash;Mail: tоmаlbrс@me.соm</p></span>');function n(a){var p=e();o(a,p)}export{n as component};
