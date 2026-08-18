@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Filament Documentation (1.4.x)</title>
+        <title>Filament Documentation (1.7.x)</title>
         <meta name="robots" content="noindex">
 
 
@@ -16,8 +16,8 @@
         <link rel="icon" href="favicon-de23e50b.svg">
         <link rel="shortcut icon" href="favicon-8114d1fc.png">
         <link rel="stylesheet" href="css/variables-8adf115d.css">
-        <link rel="stylesheet" href="css/general-0392ca55.css">
-        <link rel="stylesheet" href="css/chrome-fc474251.css">
+        <link rel="stylesheet" href="css/general-e96d0476.css">
+        <link rel="stylesheet" href="css/chrome-d279d366.css">
         <link rel="stylesheet" href="css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
@@ -38,7 +38,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-7fc863dd.js";
+            window.path_to_searchindex_js = "searchindex-f1383f51.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-a533c370.js"></script>
@@ -140,7 +140,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Filament Documentation (1.4.x)</h1>
+                    <h1 class="menu-title">Filament Documentation (1.7.x)</h1>
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -181,12 +181,8 @@
 <p>filament allows for a data driven way to add items, blocks, decorations/furniture and even entities to your farbic-based minecraft server.</p>
 <p>Checkout <a href="#using-filament">usage</a> or “<a href="content">creating content</a>” or the <a href="https://github.com/tomalbrc/filament/tree/main/example_datapack/">example datapack</a> in the GitHub repo to get started!</p>
 <p>You can find the old docs for 0.14 / 0.17 for 1.21.1 / 1.21.5 <a href="http://tomalbrc.de/docs/filament-old/">here</a></p>
-<h3 id="misode-based-generators-for"><a class="header" href="#misode-based-generators-for">Misode based generators for:</a></h3>
-<ul>
-<li><a href="https://misode.tomalbrc.de/filament/item">Items (https://misode.tomalbrc.de/filament/item)</a></li>
-<li><a href="https://misode.tomalbrc.de/filament/block">Blocks (https://misode.tomalbrc.de/filament/block)</a></li>
-<li><a href="https://misode.tomalbrc.de/filament/decoration">Decorations (https://misode.tomalbrc.de/filament/decoration)</a></li>
-</ul>
+<h3 id="editor"><a class="header" href="#editor">Editor</a></h3>
+<p>Filament comes with a locally running web-editor that can be enabled in <code>config/filament-editor.json</code>.</p>
 <h3 id="3rd-party-generators"><a class="header" href="#3rd-party-generators">3rd party generators:</a></h3>
 <ul>
 <li><a href="https://palmmc.github.io/FilamentGenerator/">Filament Generator by Palm (https://palmmc.github.io/FilamentGenerator/)</a></li>
@@ -203,17 +199,13 @@
 <h3 id="support-discord"><a class="header" href="#support-discord"><a href="https://discord.gg/9X6w2kfy89">Support Discord</a></a></h3>
 </li>
 </ul>
-<hr>
-<p>There is also a test server that you can join with 1.21.4 clients to get a glimpse of what is possible at
-mc.tomalbrc.de, default minecraft java port</p>
-<p><img src="https://api.loohpjames.com/serverbanner.png?ip=mc.tomalbrc.de" alt="test server"></p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="general"><a class="header" href="#general">General</a></h1>
 <p>This category contains a few general information about filament, configuration options and components.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="using-filament"><a class="header" href="#using-filament">Using filament</a></h1>
-<p>Requires <a href="https://modrinth.com/mod/fabric-api">fabric api</a> and <a href="https://modrinth.com/mod/polymer">polymer</a> by patbox</p>
-<p>filament mainly loads additional content using datapacks;</p>
+<p>Requires <a href="https://curseforge.com/minecraft/mc-mods/fabric-api">fabric api</a> and <a href="https://curseforge.com/minecraft/mc-mods/polymer">polymer</a> by patbox</p>
+<p>Filament loads additional content using datapacks;</p>
 <p>It also loads any <strong>assets</strong> from the <code>assets</code> folder in datapacks, if present.</p>
 <p>The datapack structure should look something like this:</p>
 <pre><code>data/
@@ -245,7 +237,7 @@ pack.mcmeta
 <code>MyDatapack/data/&lt;namespace&gt;/filament/block/myblock.json</code></p>
 <p>The files can also be located in subfolders for better organization:
 <code>MyDatapack/data/&lt;namespace&gt;/filament/block/stone_like/myblock.json</code></p>
-<p>Filament supports yaml files as of 0.12.0.
+<p>Filament supports yaml and json files.
 You can also decide whether you want to use snake_case or camelCase for all fields. For example, you can use either <code>vanillaItem</code> or <code>vanilla_item</code> or <code>itemResource</code> or <code>item_resource</code></p>
 <p>Blockbench and Animated-Java models for decorations are supported using the <a href="https://github.com/tomalbrc/blockbench-import-library">blockbench import library</a></p>
 <p>In minecraft versions 1.21.4 and higher, filament will automatically generate the item asset json under <code>namespace/items/itemname.json</code>, using the values in the <code>itemResource</code>.
@@ -302,7 +294,7 @@ This will prevent the automatic generation of an item asset model.</p>
 <p>For clients that don’t have any mods or polymer installed, the item show up as the <code>vanillaItem</code> in the config for your content, but with all components correctly applied with your custom models.</p>
 <p>In 1.21.1, custom model data override predicates will be automatically generated. You can also set the vanilla custom model data components in the <code>components</code> field of a config to use your own values.
 This is not necessary in version 1.21.2 and above.</p>
-<p>For 1.21.4, the new item model will be automatically generated. You can set the <code>itemModel</code> field in the root of an item config to prevent that.</p>
+<p>For 1.21.4 or later, the new item model will be automatically generated. You can set the <code>itemModel</code> field in the root of an item config to prevent that.</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="for-developers"><a class="header" href="#for-developers">For Developers</a></h1>
 <p>Filament provides an API and registry for custom item, block and decoration behaviours.</p>
@@ -344,7 +336,7 @@ This is not necessary in version 1.21.2 and above.</p>
     }
 
     public static class Config {
-        public ResourceLocation sound = null;
+        public Identifier sound = null;
 
         public int range = 0;
 
@@ -356,7 +348,7 @@ This is not necessary in version 1.21.2 and above.</p>
 <pre><code class="language-java">public static final BehaviourType&lt;Instrument, Instrument.Config&gt; INSTRUMENT = registerBehaviour("instrument", Instrument.class);
 
 private static &lt;T extends Behaviour&lt;E&gt;,E&gt; BehaviourType&lt;T, E&gt; registerBehaviour(String name, Class&lt;T&gt; type) {
-    return BehaviourRegistry.registerBehaviour(ResourceLocation.fromNamespaceAndPath(MOD_ID, name), type);
+    return BehaviourRegistry.registerBehaviour(Identifier.fromNamespaceAndPath(MOD_ID, name), type);
 }
 </code></pre>
 <hr>
@@ -6367,7 +6359,7 @@ For now, use the example_datapack in the GitHub repo.</p>
 
         <script src="clipboard-1626706a.min.js"></script>
         <script src="highlight-abc7f01d.js"></script>
-        <script src="book-c22b7243.js"></script>
+        <script src="book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
         <script src="langtabs-72ded3cb.js"></script>
