@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Filament Documentation (1.7.x)</title>
+        <title>Filament Documentation (1.8.x)</title>
         <meta name="robots" content="noindex">
 
 
@@ -38,7 +38,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-f1383f51.js";
+            window.path_to_searchindex_js = "searchindex-524f2c64.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-a533c370.js"></script>
@@ -140,7 +140,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Filament Documentation (1.7.x)</h1>
+                    <h1 class="menu-title">Filament Documentation (1.8.x)</h1>
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -386,7 +386,13 @@ For everything that a normal block would not suffice for.</p>
 <p><a href="#decorations-2">More info…</a></p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="configuration"><a class="header" href="#configuration">Configuration</a></h1>
-<p>The configuration file resides in <code>config/filament.json</code></p>
+<p>Configuration files live in <code>config/filament/</code>. Two files are used:</p>
+<ul>
+<li><code>config/filament/general.json</code> -&gt; core mod settings</li>
+<li><code>config/filament/web-editor.json</code> -&gt; the web editor server</li>
+</ul>
+<p>On first boot after upgrading from an older version, the legacy files (<code>config/filament.json</code> and <code>config/filament-editor.json</code>) are automatically migrated into the new folder and then removed. Existing values are preserved; new options are filled in with their defaults.</p>
+<h2 id="general-configfilamentgeneraljson"><a class="header" href="#general-configfilamentgeneraljson">General (<code>config/filament/general.json</code>)</a></h2>
 <h3 id="debug"><a class="header" href="#debug"><code>debug</code></a></h3>
 <p>Prints additional debug information</p>
 <hr>
@@ -404,12 +410,46 @@ For everything that a normal block would not suffice for.</p>
 <h3 id="alternative_cosmetic_placement"><a class="header" href="#alternative_cosmetic_placement"><code>alternative_cosmetic_placement</code></a></h3>
 <p>Oraxen/ItemsAdder compatible cosmetic placement (adds armorstand offset)</p>
 <hr>
-<h3 id="entity_module"><a class="header" href="#entity_module"><code>entity_module</code></a></h3>
-<p>Enables the experimental entity module to allow data-driven entities</p>
+<h3 id="add_custom_menu_assets"><a class="header" href="#add_custom_menu_assets"><code>add_custom_menu_assets</code></a></h3>
+<p>Adds custom menu assets to the generated resource pack.</p>
 <hr>
-<h3 id="sound_module"><a class="header" href="#sound_module"><code>sound_module</code></a></h3>
-<p>Enables the sound module to play block sounds (including step sounds) fully serverside to allow for custom block sounds.</p>
-<hr><div style="break-before: page; page-break-before: always;"></div>
+<h3 id="resourcepack_required"><a class="header" href="#resourcepack_required"><code>resourcepack_required</code></a></h3>
+<p>Whether the resource pack is required for clients to join. When <code>true</code>, clients without the pack are rejected.</p>
+<hr>
+<h3 id="decoration_placement_previews"><a class="header" href="#decoration_placement_previews"><code>decoration_placement_previews</code></a></h3>
+<p>Enables the placement preview mode for decorations. When enabled, players can sneak + press <strong>F</strong> while holding a decoration item to toggle a ghost preview of the decoration where it would be placed.</p>
+<hr>
+<h3 id="preview_glow"><a class="header" href="#preview_glow"><code>preview_glow</code></a></h3>
+<p>Applies a glow effect to the placement preview elements. Defaults to <code>true</code>.</p>
+<hr>
+<h3 id="preview_glow_color"><a class="header" href="#preview_glow_color"><code>preview_glow_color</code></a></h3>
+<p>The glow color for placement preview elements, as a hex RGB integer (e.g. <code>0x00FF00</code> for green). Defaults to <code>0x00FF00</code>.</p>
+<hr>
+<h3 id="preview_transparency"><a class="header" href="#preview_transparency"><code>preview_transparency</code></a></h3>
+<p>The opacity multiplier applied to preview textures. <code>0.5</code> means 50% opacity. Defaults to <code>0.5</code>.</p>
+<hr>
+<h2 id="web-editor-configfilamentweb-editorjson"><a class="header" href="#web-editor-configfilamentweb-editorjson">Web Editor (<code>config/filament/web-editor.json</code>)</a></h2>
+<h3 id="enabled"><a class="header" href="#enabled"><code>enabled</code></a></h3>
+<p>Enables the web editor server.</p>
+<hr>
+<h3 id="passwordlogin"><a class="header" href="#passwordlogin"><code>passwordLogin</code></a></h3>
+<p>Requires a username and password to access the web editor.</p>
+<hr>
+<h3 id="defaultuser"><a class="header" href="#defaultuser"><code>defaultUser</code></a></h3>
+<p>The default username for the web editor login. Only used when <code>passwordLogin</code> is <code>true</code>.</p>
+<hr>
+<h3 id="defaultpassword"><a class="header" href="#defaultpassword"><code>defaultPassword</code></a></h3>
+<p>The default password for the web editor login. Only used when <code>passwordLogin</code> is <code>true</code>.</p>
+<hr>
+<h3 id="bindip"><a class="header" href="#bindip"><code>bindIp</code></a></h3>
+<p>The IP address the web editor server binds to. Defaults to <code>0.0.0.0</code> (all interfaces).</p>
+<hr>
+<h3 id="bindport"><a class="header" href="#bindport"><code>bindPort</code></a></h3>
+<p>The port the web editor server listens on. Defaults to <code>25599</code>.</p>
+<hr>
+<h3 id="externaladdress"><a class="header" href="#externaladdress"><code>externalAddress</code></a></h3>
+<p>The address advertised to clients for connecting to the web editor. Defaults to <code>http://127.0.0.1:25599</code>.</p>
+<div style="break-before: page; page-break-before: always;"></div>
 <h1 id="item-groups"><a class="header" href="#item-groups">Item Groups</a></h1>
 <p>You can add custom item-groups for your items/blocks and decorations.
 Those are accessible using <code>/polymer creative</code> or, when polymer is installed client-side, in the vanilla creative menu.</p>
@@ -1139,24 +1179,12 @@ white
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="third-party-compatibility"><a class="header" href="#third-party-compatibility">Third party compatibility</a></h1>
 <h1 id="oraxen-and-nexo"><a class="header" href="#oraxen-and-nexo">Oraxen and Nexo</a></h1>
-<p>Filament supports Nexo and Oraxen packs directly as of 0.17.8 (there is also 0.14.9 for 1.21.1 that supports this feature)</p>
-<p>Create a folder called “nexo” in your games root directory and copy your oraxen or nexo packs into it.</p>
-<pre><code>└── mods/
-└── nexo/
-    └── your-pack/
-        ├── items/
-        └── pack/
-</code></pre>
-<p>The folder name of the pack should not contain spaces or special character, it is used as namespace in the identifier for your items and blocks:
-<code>your-pack:your_item</code></p>
-<p>The assets will automatically be added to the generated resource-pack.</p>
-<h1 id="config-options"><a class="header" href="#config-options">Config options</a></h1>
-<p>There are 2 options in <code>filament.json</code> to make:</p>
+<p>There are 2 options in <code>config/filament/general.json</code> to make:</p>
 <ol>
-<li>Decoration <code>blocks</code> and <code>seat</code> rotations (<code>seat</code> behaviour) more similar to that of Oraxen / Nexo / ItemsAdder - filaments placement for those is rotated by 180° b default.</li>
+<li>Decoration <code>blocks</code> and <code>seat</code> rotations (<code>seat</code> behaviour) more similar to that of Oraxen / Nexo / ItemsAdder - filaments placement for those is rotated by 180° by default.</li>
 <li>Change the display of cosmetics on the player, this uses the “head” as display context of the item. It also moves the backpack up, since filament uses item display entities instead of armor stands.</li>
 </ol>
-<p>Those 2 options in filament.json are:</p>
+<p>Those 2 options in <code>config/filament/general.json</code> are:</p>
 <ul>
 <li><code>alternative_block_placement</code></li>
 <li><code>alternative_cosmetic_placement</code></li>
@@ -1166,9 +1194,27 @@ white
 <h1 id="worldedit"><a class="header" href="#worldedit">WorldEdit</a></h1>
 <p>Everything should be fully compatible, the only known bug is decorations not appearing or being removed when cloning or moving an area. This can be fixed by a server restart</p>
 <hr>
-<p>Client-side mod for improved rotation (less delay) of cosmetics:
-https://modrinth.com/mod/smoother-server-cosmetics
-by AmoAsterVT!</p>
+<h1 id="polymer---quality-of-life-polymer-qol"><a class="header" href="#polymer---quality-of-life-polymer-qol">Polymer - Quality of Life (polymer-qol)</a></h1>
+<p>A <strong>client + server</strong> mod by <strong>DrexHD</strong> that provides quality-of-life improvements for players on Polymer-powered servers. <strong>Must be installed on both the client and server to work</strong>.</p>
+<p>Features:</p>
+<ul>
+<li><strong>Client-side mining</strong> - uses Polymer’s block syncing to calculate modded block breaking times on the client, allowing for smoother block breaking with high efficiency tools with Haste 2 effect (especially useful on high ping)</li>
+<li><strong>No block updates</strong> - breaking and placing blocks won’t cause block updates on the client, removing visually distracting incorrect blocks</li>
+<li><strong>Preventing arm swing</strong> - players won’t swing their arms when interacting with fake noteblocks (used by custom blocks)</li>
+</ul>
+<p>Server config at <code>config/polymer-qol-server.json</code> allows you to disable individual features.</p>
+<p><strong>Download:</strong></p>
+<ul>
+<li><a href="https://www.curseforge.com/minecraft/mc-mods/polymer-quality-of-life">CurseForge</a></li>
+<li><a href="https://modrinth.com/mod/polymer-qol">Modrinth</a></li>
+</ul>
+<hr>
+<h1 id="smoother-server-cosmetics"><a class="header" href="#smoother-server-cosmetics">Smoother Server Cosmetics</a></h1>
+<p>A <strong>client-side</strong> mod by <strong>AmoAsterVT</strong> that smooths the rotation of server-side cosmetics, removing the visible delay when turning. Only needs to be installed on the <strong>client</strong>, no server-side changes required.</p>
+<p><strong>Download:</strong></p>
+<ul>
+<li><a href="https://modrinth.com/mod/smoother-server-cosmetics">Modrinth</a></li>
+</ul>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="items-1"><a class="header" href="#items-1">Items</a></h1>
 <p>The misode based generator for items can be found <a href="https://misode.tomalbrc.de/filament/item">here!</a></p>
@@ -2731,7 +2777,6 @@ Defaults to <code>true</code></p>
 <h3 id="sounds"><a class="header" href="#sounds"><code>sounds</code></a></h3>
 <p>Allows to specify a set of sounds and the volume/pitch for them.</p>
 <p>All sounds, including step sounds, will be played serverside! Even for some vanilla blocks, since filament sets the vanilla sounds to an empty list, as a lot of blocks share the same sounds (noteblocks and all wooden blocks use the same wood sounds for example)</p>
-<p>This might affect performance a bit, for this reason there is a config option in <code>config/filament.json</code> called “sound_module” to enable/disable the server-side block sounds.</p>
 <div class="langtabs">
 <div class="langtabs-header"><button class="langtabs-tab active" data-lang="yaml-0"><i class="langtabs-icon devicon-devicon-plain"></i>YAML</button><button class="langtabs-tab" data-lang="json-1"><i class="langtabs-icon devicon-javascript-plain"></i>JSON</button></div>
 <div class="langtabs-content">

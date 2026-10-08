@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Oraxen / ItemsAdder compatibility - Filament Documentation (1.7.x)</title>
+        <title>Oraxen / ItemsAdder compatibility - Filament Documentation (1.8.x)</title>
 
 
         <!-- Custom HTML head -->
@@ -37,7 +37,7 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-f1383f51.js";
+            window.path_to_searchindex_js = "../../searchindex-524f2c64.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc-a533c370.js"></script>
@@ -139,7 +139,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Filament Documentation (1.7.x)</h1>
+                    <h1 class="menu-title">Filament Documentation (1.8.x)</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -178,24 +178,12 @@
                     <main>
                         <h1 id="third-party-compatibility"><a class="header" href="#third-party-compatibility">Third party compatibility</a></h1>
 <h1 id="oraxen-and-nexo"><a class="header" href="#oraxen-and-nexo">Oraxen and Nexo</a></h1>
-<p>Filament supports Nexo and Oraxen packs directly as of 0.17.8 (there is also 0.14.9 for 1.21.1 that supports this feature)</p>
-<p>Create a folder called “nexo” in your games root directory and copy your oraxen or nexo packs into it.</p>
-<pre><code>└── mods/
-└── nexo/
-    └── your-pack/
-        ├── items/
-        └── pack/
-</code></pre>
-<p>The folder name of the pack should not contain spaces or special character, it is used as namespace in the identifier for your items and blocks:
-<code>your-pack:your_item</code></p>
-<p>The assets will automatically be added to the generated resource-pack.</p>
-<h1 id="config-options"><a class="header" href="#config-options">Config options</a></h1>
-<p>There are 2 options in <code>filament.json</code> to make:</p>
+<p>There are 2 options in <code>config/filament/general.json</code> to make:</p>
 <ol>
-<li>Decoration <code>blocks</code> and <code>seat</code> rotations (<code>seat</code> behaviour) more similar to that of Oraxen / Nexo / ItemsAdder - filaments placement for those is rotated by 180° b default.</li>
+<li>Decoration <code>blocks</code> and <code>seat</code> rotations (<code>seat</code> behaviour) more similar to that of Oraxen / Nexo / ItemsAdder - filaments placement for those is rotated by 180° by default.</li>
 <li>Change the display of cosmetics on the player, this uses the “head” as display context of the item. It also moves the backpack up, since filament uses item display entities instead of armor stands.</li>
 </ol>
-<p>Those 2 options in filament.json are:</p>
+<p>Those 2 options in <code>config/filament/general.json</code> are:</p>
 <ul>
 <li><code>alternative_block_placement</code></li>
 <li><code>alternative_cosmetic_placement</code></li>
@@ -205,9 +193,27 @@
 <h1 id="worldedit"><a class="header" href="#worldedit">WorldEdit</a></h1>
 <p>Everything should be fully compatible, the only known bug is decorations not appearing or being removed when cloning or moving an area. This can be fixed by a server restart</p>
 <hr>
-<p>Client-side mod for improved rotation (less delay) of cosmetics:
-https://modrinth.com/mod/smoother-server-cosmetics
-by AmoAsterVT!</p>
+<h1 id="polymer---quality-of-life-polymer-qol"><a class="header" href="#polymer---quality-of-life-polymer-qol">Polymer - Quality of Life (polymer-qol)</a></h1>
+<p>A <strong>client + server</strong> mod by <strong>DrexHD</strong> that provides quality-of-life improvements for players on Polymer-powered servers. <strong>Must be installed on both the client and server to work</strong>.</p>
+<p>Features:</p>
+<ul>
+<li><strong>Client-side mining</strong> - uses Polymer’s block syncing to calculate modded block breaking times on the client, allowing for smoother block breaking with high efficiency tools with Haste 2 effect (especially useful on high ping)</li>
+<li><strong>No block updates</strong> - breaking and placing blocks won’t cause block updates on the client, removing visually distracting incorrect blocks</li>
+<li><strong>Preventing arm swing</strong> - players won’t swing their arms when interacting with fake noteblocks (used by custom blocks)</li>
+</ul>
+<p>Server config at <code>config/polymer-qol-server.json</code> allows you to disable individual features.</p>
+<p><strong>Download:</strong></p>
+<ul>
+<li><a href="https://www.curseforge.com/minecraft/mc-mods/polymer-quality-of-life">CurseForge</a></li>
+<li><a href="https://modrinth.com/mod/polymer-qol">Modrinth</a></li>
+</ul>
+<hr>
+<h1 id="smoother-server-cosmetics"><a class="header" href="#smoother-server-cosmetics">Smoother Server Cosmetics</a></h1>
+<p>A <strong>client-side</strong> mod by <strong>AmoAsterVT</strong> that smooths the rotation of server-side cosmetics, removing the visible delay when turning. Only needs to be installed on the <strong>client</strong>, no server-side changes required.</p>
+<p><strong>Download:</strong></p>
+<ul>
+<li><a href="https://modrinth.com/mod/smoother-server-cosmetics">Modrinth</a></li>
+</ul>
 
                     </main>
 
