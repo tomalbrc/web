@@ -38,7 +38,7 @@
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-524f2c64.js";
+            window.path_to_searchindex_js = "searchindex-4f9c63e8.js";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc-a533c370.js"></script>
@@ -4175,10 +4175,8 @@ Block-State-Properties to provide models for:</p>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="decorations-2"><a class="header" href="#decorations-2">Decorations</a></h1>
 <p>The misode based generator for decorations can be found <a href="https://misode.tomalbrc.de/filament/decoration">here!</a></p>
-<h2 id="file-1"><a class="header" href="#file-1">File</a></h2>
 <p>Decoration configuration files are to be placed in <code>MyDatapack/data/&lt;namespace&gt;/filament/decoration/my_decoration.json</code>.</p>
-<p>All item-behaviours such as <code>fuel</code> and <code>cosmetic</code> are supported by decorations.</p>
-<p>You can also set components to the configurations using the <code>components</code> field.</p>
+<p>All item-behaviours such as <code>fuel</code> and <code>cosmetic</code> are supported by decorations, as well as most block behaviours. You can also set components using the <code>components</code> field.</p>
 <hr>
 <h2 id="contents-1"><a class="header" href="#contents-1">Contents</a></h2>
 <div class="langtabs">
@@ -4191,14 +4189,13 @@ translations:
 itemResource:
   models:
     default: mynamespace:custom/furniture/displays/quartz_pedastal
-properties:
-  rotate: true
-  rotateSmooth: true
 behaviour:
   showcase:
     - offset: [0, 1.05, 0]
       scale: [0.45, 0.45, 0.45]
       type: dynamic
+  rotating:
+    smooth: true # set to true to allow 45° rotations, false for 90° rotations 
 blocks:
   - origin: [0, 0, 0]
     size: [1, 1, 1]
@@ -4216,16 +4213,17 @@ blocks:
       "default": "mynamespace:custom/furniture/displays/quartz_pedastal"
     }
   },
-  "properties": {
-    "rotate": true,
-    "rotateSmooth": true
-  },
   "behaviour": {
-    "showcase": [{
-      "offset": [0, 1.05, 0],
-      "scale": [0.45, 0.45, 0.45],
-      "type": "dynamic"
-    }]
+    "showcase": [
+      {
+        "offset": [0, 1.05, 0],
+        "scale": [0.45, 0.45, 0.45],
+        "type": "dynamic"
+      }
+    ],
+    "rotating": {
+      "smooth": true
+    }
   },
   "blocks": [
     {
@@ -4239,9 +4237,10 @@ blocks:
 </div>
 </div>
 
-<p>The file contents are very similar to that of blocks, except for additional behaviours exclusive to decorations.</p>
-<p>Decorations support most of the block behaviours.</p>
-<p>You can specify different models for decorations when placed on walls, ceiling (underside of blocks) or on the floor.</p>
+<p>The file contents are very similar to that of blocks, except for additional behaviours exclusive to decorations. Decorations support most of the block behaviours.</p>
+<hr>
+<h2 id="placement-models"><a class="header" href="#placement-models">Placement models</a></h2>
+<p>You can specify different models for decorations when placed on walls, on the ceiling (underside of blocks), or on the floor.</p>
 <div class="langtabs">
 <div class="langtabs-header"><button class="langtabs-tab active" data-lang="yaml-0"><i class="langtabs-icon devicon-devicon-plain"></i>YAML</button><button class="langtabs-tab" data-lang="json-1"><i class="langtabs-icon devicon-javascript-plain"></i>JSON</button></div>
 <div class="langtabs-content">
@@ -4287,8 +4286,8 @@ behaviour:
     }
   },
   "behaviour": {
-    "rotating": { // to allow 90° rotations
-      "smooth": true // to allow 45° rotations
+    "rotating": {
+      "smooth": true
     }
   }
 }
@@ -4297,10 +4296,50 @@ behaviour:
 </div>
 </div>
 
-<p>This will result in a decoration with different models in the Inventory, when placed on the floor, when placed on a wall and when placed on ceilings.</p>
-<p>The field <code>block</code> can be used to specify a different block to use instead of barrier blocks (only used when the decoration has blocks specified using the <code>blocks</code> field)</p>
-<p>The field <code>itemFrame</code> forces the decoration to use item-frames instead an item-display entity in combination with an interaction entity.</p>
+<p>This will result in a decoration with different models in the Inventory, when placed on the floor, when placed on a wall, and when placed on ceilings.</p>
+<hr>
+<h2 id="fields-3"><a class="header" href="#fields-3">Fields</a></h2>
+<h3 id="itemframe"><a class="header" href="#itemframe"><code>itemFrame</code></a></h3>
+<p>Forces the decoration to use a single item-frame entity instead of an item-display entity in combination with an interaction entity.</p>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>This will be ignored if the <code>size</code> field has been set!</p>
+</blockquote>
+<p><strong>Example</strong></p>
+<pre><code class="language-json">{
+  "itemFrame": true
+}
+</code></pre>
+<h3 id="block"><a class="header" href="#block"><code>block</code></a></h3>
+<p>Specifies a different block to use instead of barrier blocks.
+A block identifier (e.g. <code>minecraft:barrier</code>).</p>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>Only used when the decoration has blocks specified using the <code>blocks</code> field.</p>
+</blockquote>
+<p><strong>Example</strong></p>
+<pre><code class="language-json">{
+  "block": "minecraft:barrier"
+}
+</code></pre>
+<h3 id="size"><a class="header" href="#size"><code>size</code></a></h3>
+<p>Specifies the size of the interaction entity.
+A <code>[width, height]</code> list representing the interaction entity size.</p>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>This will be ignored if the <code>blocks</code> field has been set!</p>
+</blockquote>
+<p><strong>Example</strong></p>
+<pre><code class="language-json">{
+  "size": [1.0, 1.0]
+}
+</code></pre>
+<h3 id="block_resource"><a class="header" href="#block_resource"><code>block_resource</code></a></h3>
 <p>Decorations are able to show a different item model based on the block state, similar to blocks, using a <code>block_resource</code>.</p>
+<blockquote class="blockquote-tag blockquote-tag-note">
+<p class="blockquote-tag-title"><svg viewbox="0 0 16 16" width="18" height="18"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg>Note</p>
+<p>Different models for wall/floor/ceiling placements won’t work when using this field!</p>
+</blockquote>
 <div style="break-before: page; page-break-before: always;"></div>
 <h1 id="properties-3"><a class="header" href="#properties-3">Properties</a></h1>
 <p>Decoration properties share the same properties as <a href="#properties-1">items</a> and a few of <a href="#block-properties">blocks</a>, like <code>solid</code> and <code>pushReaction</code></p>
@@ -4489,7 +4528,7 @@ Use the <code>waterloggable</code> block behaviour!</p>
 <p>Flag whether to show break particles at all.</p>
 <p>Defaults to <code>true</code></p>
 <hr>
-<h3 id="itemframe"><a class="header" href="#itemframe"><code>itemFrame</code></a></h3>
+<h3 id="itemframe-1"><a class="header" href="#itemframe-1"><code>itemFrame</code></a></h3>
 <p>Uses an item frame for decorations instead of either blocks or an interaction entity with an item display entity.</p>
 <p>Defaults to <code>false</code></p>
 <div style="break-before: page; page-break-before: always;"></div>
@@ -5575,7 +5614,7 @@ The category of the entity can change its spawn behavior. “monster” entities
   }
 }
 </code></pre>
-<h3 id="size"><a class="header" href="#size"><code>size</code>:</a></h3>
+<h3 id="size-1"><a class="header" href="#size-1"><code>size</code>:</a></h3>
 <p>Specifies the dimensions of the entity’s bounding box. Should be a list of two floats: <code>[width, height]</code>.</p>
 <h3 id="category"><a class="header" href="#category"><code>category</code>:</a></h3>
 <p>Defines the entity’s mob category. Valid values include <code>monster</code>, <code>creature</code>, <code>ambient</code>, <code>water_creature</code>.</p>
